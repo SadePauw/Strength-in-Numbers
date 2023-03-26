@@ -36,6 +36,8 @@ public class Zombie : MonoBehaviour
     NavMeshAgent agent;
     float time;
 
+    private bool doOnce = false;
+
     void Start()
     {
         zombieParent = GameObject.Find("Zombies").transform;
@@ -119,7 +121,11 @@ public class Zombie : MonoBehaviour
         health -= 1;
         if (health <= 0)
         {
-            Instantiate(scientistPrefab, transform.position, transform.rotation, scientistParent);
+            if (!doOnce)
+            {
+                Instantiate(scientistPrefab, transform.position, transform.rotation, scientistParent);
+                doOnce = true;
+            }
             Destroy(gameObject);
         }
     }

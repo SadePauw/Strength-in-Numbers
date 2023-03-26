@@ -30,6 +30,7 @@ public class Scientist : MonoBehaviour
     [Header("Parents")]
     public Transform zombieParent;
     public Transform scientistParent;
+    public Transform projectileParent;
 
     //Caches
     NavMeshAgent agent;
@@ -38,6 +39,7 @@ public class Scientist : MonoBehaviour
     {
         zombieParent = GameObject.Find("Zombies").transform;
         scientistParent = GameObject.Find("Scientists").transform;
+        projectileParent = GameObject.Find("Projectile").transform;
         agent = GetComponent<NavMeshAgent>();
         wanderTimer = wanderTimerConst;
     }
@@ -64,7 +66,7 @@ public class Scientist : MonoBehaviour
                 timerCount -= Time.deltaTime;
                 if (timerCount <= 0)
                 {
-                    var obj = Instantiate(projectile, transform.position + offset, transform.rotation);
+                    var obj = Instantiate(projectile, transform.position + offset, transform.rotation, projectileParent);
                     obj.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed);
                     Destroy(obj, 3);
                     timerCount = shootTimer;
@@ -72,7 +74,7 @@ public class Scientist : MonoBehaviour
                 
                 if (target.GetComponent<Zombie>().health <= 0)
                 {
-                    TurnTarget(target);
+                   //TurnTarget(target);
                     target = null;
                 }
                 
