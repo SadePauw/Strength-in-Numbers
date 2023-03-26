@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5581069101113821629}
   - component: {fileID: 3124434068356950063}
   - component: {fileID: 8776269488927833140}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Antidote
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3361550086575020297}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.0017849787, y: 0.0014467309, z: 0.003032872}
@@ -129,4 +129,4 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
