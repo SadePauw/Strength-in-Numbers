@@ -32,8 +32,13 @@ public class Scientist : MonoBehaviour
     public Transform scientistParent;
     public Transform projectileParent;
 
+    [Header("Animator")]
+    public Animator animator;
+
     //Caches
     NavMeshAgent agent;
+    float speedVal;
+    Vector3 lastPosition;
 
     void Start()
     {
@@ -46,6 +51,13 @@ public class Scientist : MonoBehaviour
 
     void Update()
     {
+        speedVal = Mathf.Lerp(speedVal, (transform.position - lastPosition).magnitude / Time.deltaTime, 0.75f);
+        lastPosition = transform.position;
+        if (animator != null)
+        {
+            animator.SetFloat("SRun", speedVal);
+        }
+
         FindTargets();
         FollowTarget();
         Shooting();
@@ -62,6 +74,11 @@ public class Scientist : MonoBehaviour
             distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
             if (distanceToTarget <= shootingRange)
             {
+                if (animator != null)
+                {
+                    animator.SetBool("SAttack", true);
+                }
+
                 transform.LookAt(target.transform);
                 timerCount -= Time.deltaTime;
                 if (timerCount <= 0)
@@ -78,6 +95,13 @@ public class Scientist : MonoBehaviour
                     target = null;
                 }
                 
+            }
+            else
+            {
+                if (animator != null)
+                {
+                    animator.SetBool("SAttack", false);
+                }
             }
         }
         else

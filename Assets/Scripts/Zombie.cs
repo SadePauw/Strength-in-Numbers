@@ -31,10 +31,14 @@ public class Zombie : MonoBehaviour
     public Transform zombieParent;
     public Transform scientistParent;
 
+    [Header("Animator")]
+    public Animator animator;
 
     //Caches
     NavMeshAgent agent;
     float time;
+    float speedVal;
+    Vector3 lastPosition;
 
     private bool doOnce = false;
 
@@ -48,6 +52,13 @@ public class Zombie : MonoBehaviour
 
     void Update()
     {
+        speedVal = Mathf.Lerp(speedVal, (transform.position - lastPosition).magnitude / Time.deltaTime, 0.75f);
+        lastPosition = transform.position;
+        if (animator != null)
+        {
+            animator.SetFloat("ZRun", speedVal);
+        }
+
         FindTargets();
         FollowTarget();
         Turning();
@@ -64,6 +75,10 @@ public class Zombie : MonoBehaviour
         distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
             if (distanceToTarget <= turnRadius)
             {
+                if (animator != null)
+                {
+                    animator.SetBool("ZAttack", true);
+                }
                 time -= Time.deltaTime;
                 if (time <= 0)
                 {
@@ -74,6 +89,10 @@ public class Zombie : MonoBehaviour
             else
             {
                 time = timer;
+                if (animator != null)
+                {
+                    animator.SetBool("ZAttack", false);
+                }
             }
         }
     }

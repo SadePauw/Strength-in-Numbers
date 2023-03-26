@@ -51,8 +51,11 @@ namespace StarterAssets
 		[Tooltip("How far in degrees can you move the camera down")]
 		public float BottomClamp = -90.0f;
 
-		// cinemachine
-		private float _cinemachineTargetPitch;
+        [Header("Animator")]
+        public Animator animator;
+
+        // cinemachine
+        private float _cinemachineTargetPitch;
 
 		// player
 		private float _speed;
@@ -64,9 +67,13 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
-	
+        //Anim
+        private float speedVal;
+        private Vector3 lastPosition;
+
+
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-		private PlayerInput _playerInput;
+        private PlayerInput _playerInput;
 #endif
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
@@ -112,7 +119,14 @@ namespace StarterAssets
 
 		private void Update()
 		{
-			JumpAndGravity();
+            speedVal = Mathf.Lerp(speedVal, (transform.position - lastPosition).magnitude / Time.deltaTime, 0.75f);
+            lastPosition = transform.position;
+            if (animator != null)
+            {
+                animator.SetFloat("PRun", speedVal);
+            }
+
+            JumpAndGravity();
 			GroundedCheck();
 			Move();
 		}
